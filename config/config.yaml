@@ -1,0 +1,101 @@
+# ============================================================
+# Embedding Configuration
+# ============================================================
+
+embedding:
+  # The name of the embedding model to use (e.g., "text-embedding-3-small")
+  model_name: "text-embedding-3-small"
+
+# ============================================================
+# Vector Store Configuration
+# ============================================================
+
+vector_store:
+  # The name of the vector store to use (e.g., "qdrant")
+  name: "qdrant"
+  # The host for the vector store (e.g., "localhost")
+  host: "localhost"
+  # The port for the vector store (e.g., 6333)
+  port: 6333
+  # The name of the collection to use in the vector store
+  collection_name: "rag_collection"
+  # The URL for the vector store API (e.g., "http://localhost:6333")
+  url: "http://localhost:6333"
+
+# ============================================================
+# LLM Configuration
+# ============================================================
+
+llm:
+  # The name of the LLM model to use (e.g., "gpt-3.5-turbo")
+  model_name: "gpt-4.1-mini"
+  temperature: 0.2
+
+# ============================================================
+# Retriever Configuration
+# ============================================================
+
+retriever:
+  # The number of top relevant documents to retrieve
+  top_k: 5
+  # The similarity threshold for retrieving documents (e.g., 0.8)
+  similarity_threshold: 0.8
+
+# ============================================================
+# Logging Configuration
+# ============================================================
+
+logging:
+  # The logging level (e.g., "INFO", "DEBUG", "ERROR")
+  level: "INFO"
+  # The format for log messages
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  # The file to which logs should be written (e.g., "app.log")
+  file: "app.log"
+
+# ============================================================
+# Source Data Configuration
+# ============================================================
+
+source_data:
+  # The path to the source data directory (e.g., "data/")
+  document_directory: "data/"
+
+
+# ============================================================
+# Chunking Configuration
+# ============================================================
+
+chunking:
+  # The size of each chunk in characters (e.g., 1000)
+  chunk_size: 810
+  # The overlap between chunks in characters (e.g., 200)
+  chunk_overlap: 162
+  # The strategy for chunking (e.g., "recursive", "character", "sentence")
+  strategy: "recursive"  
+
+# ============================================================
+# Credentials Configuration
+# ============================================================
+credentials:
+  openai_api_key: ""    # injected from .env at runtime
+  cohere_api_key: ""   # injected from .env at runtime
+
+# ============================================================
+# Reranker Configuration
+# ============================================================
+reranker:
+  # The name of the reranker model to use (e.g., "rerank-english-v2.0")
+  model_name: "cohere-rerank-english-v2.0"
+  # The number of top relevant documents to rerank
+  top_k: 3
+  top_n: 5
+
+# ============================================================
+# Validation Configuration
+# ============================================================
+
+validation:
+  max_query_length: 512
+  max_response_length: 2048
+  min_query_length: 9

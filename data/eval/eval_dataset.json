@@ -1,0 +1,14 @@
+[
+    {
+        "question": "What is the attention mechanism in transformers?",
+        "ground_truth": "The attention mechanism allows the model to focus on relevant parts of the input sequence when generating each output token."
+    },
+    {
+        "question": "What problem does self-attention solve?",
+        "ground_truth": "Self-attention solves the problem of capturing long-range dependencies in sequences without relying on recurrence."
+    },
+    {
+        "question": "What is the USA?",
+        "ground_truth": "The USA is a federal republic consisting of 50 states."
+    }
+]

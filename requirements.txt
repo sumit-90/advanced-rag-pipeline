@@ -1,0 +1,47 @@
+# ============================================================
+# LangChain
+# ============================================================
+langchain-community>=0.4.1          # TextLoader, UnstructuredMarkdownLoader, PyMuPDFLoader
+langchain-core>=1.2.7               # SystemMessage, HumanMessage
+langchain-openai>=1.1.7             # OpenAIEmbeddings, ChatOpenAI
+langchain-text-splitters>=1.1.0     # RecursiveCharacterTextSplitter, CharacterTextSplitter
+
+# ============================================================
+# Vector Store
+# ============================================================
+qdrant-client>=1.16.2               # QdrantClient, PointStruct, VectorParams, Distance
+
+# ============================================================
+# LLM Providers
+# ============================================================
+openai>=2.15.0                      # Underlying OpenAI client (used by langchain-openai)
+cohere>=5.20.1                      # Cohere rerank API (used directly, not via LangChain)
+
+# ============================================================
+# Document Processing
+# ============================================================
+pymupdf>=1.26.7                     # PDF loading (required by PyMuPDFLoader)
+unstructured>=0.18.15               # Markdown loading (required by UnstructuredMarkdownLoader)
+
+# ============================================================
+# Evaluation
+# ============================================================
+ragas>=0.3.7                        # Faithfulness, AnswerRelevancy, ContextPrecision metrics
+
+# ============================================================
+# API
+# ============================================================
+fastapi>=0.128.0                    # FastAPI framework + CORSMiddleware
+uvicorn>=0.40.0                     # ASGI server
+pydantic>=2.12.5                    # Request/response schema models
+
+# ============================================================
+# Configuration & Environment
+# ============================================================
+pyyaml>=6.0.3                       # config/config.yaml loading
+python-dotenv>=1.2.1                # .env secrets injection
+
+# ============================================================
+# Testing
+# ============================================================
+pytest>=9.0.2                       # Unit tests (tests/ directory)
