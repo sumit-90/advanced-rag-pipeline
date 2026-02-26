@@ -13,6 +13,9 @@ A production-style **Advanced Retrieval-Augmented Generation (RAG)** pipeline bu
 - [Setup & Installation](#setup--installation)
 - [Configuration](#configuration)
 - [Running the API](#running-the-api)
+- [Running the UI](#running-the-ui)
+- [Running with Docker](#running-with-docker)
+- [Testing](#testing)
 - [API Endpoints](#api-endpoints)
 - [Evaluation](#evaluation)
 - [Guardrails](#guardrails)
@@ -74,6 +77,9 @@ Documents (PDF / TXT / MD)
 | Reranker | Cohere `cohere-rerank-english-v2.0` via `cohere` client (direct) |
 | Evaluation | RAGAS (Faithfulness, AnswerRelevancy, ContextPrecision) |
 | API | FastAPI + Uvicorn |
+| UI | Streamlit |
+| Testing | pytest + unittest.mock |
+| Containerization | Docker + Docker Compose |
 | Config | PyYAML + python-dotenv |
 | Logging | Python `logging` (file + console) |
 
@@ -121,6 +127,18 @@ rag_practise/
 │       └── guardrails.py        # Input/output validation
 │
 ├── tests/
+│   ├── test_guardrails.py   # Unit tests for input/output validation
+│   ├── test_chunker.py      # Unit tests for document chunking
+│   └── test_api.py          # API endpoint tests using FastAPI TestClient
+│
+├── ui/
+│   └── app.py               # Streamlit web UI — 3 tabs: Ingest, Query, Evaluate
+│
+├── Dockerfile               # Containerise the FastAPI app
+├── docker-compose.yml       # Run API + Qdrant together with one command
+├── .env.example             # Template showing required environment variables
+├── .dockerignore            # Files excluded from the Docker build
+├── .gitignore               # Files excluded from version control
 ├── .env                     # API keys (not committed)
 ├── app.log                  # Runtime logs
 └── README.md
@@ -270,6 +288,62 @@ uv run uvicorn api.main:app --reload
 The API will be available at `http://localhost:8000`.
 
 Interactive docs (Swagger UI): `http://localhost:8000/docs`
+
+---
+
+## Running the UI
+
+Make sure the FastAPI server is already running on port 8000, then in a separate terminal:
+
+```bash
+uv run streamlit run ui/app.py
+```
+
+The UI will be available at `http://localhost:8501`.
+
+It has 3 tabs:
+
+| Tab | What it does |
+|-----|-------------|
+| **Ingest** | Type a directory name under `data/` and ingest documents into Qdrant |
+| **Query** | Ask a question and see the answer, sources, and model used |
+| **Evaluate** | Enter Q&A pairs in a table and run RAGAS evaluation |
+
+---
+
+## Running with Docker
+
+To run the FastAPI API and Qdrant together with a single command:
+
+```bash
+docker compose up --build
+```
+
+- API will be available at `http://localhost:8000`
+- Qdrant will be available at `http://localhost:6333`
+
+> **Important:** When using Docker Compose, update `vector_store.url` in `config/config.yaml` from `http://localhost:6333` to `http://qdrant:6333`. Inside Docker, containers communicate using their service names, not `localhost`.
+
+To stop:
+```bash
+docker compose down
+```
+
+---
+
+## Testing
+
+Run all unit tests:
+
+```bash
+uv run pytest tests/ -v
+```
+
+| Test File | What it tests |
+|-----------|--------------|
+| `test_guardrails.py` | `validate_query` and `validate_response` — 9 tests, no external dependencies |
+| `test_chunker.py` | `chunk_documents` — empty input, metadata preservation, chunk index — 4 tests |
+| `test_api.py` | All 4 API endpoints using FastAPI `TestClient` + `unittest.mock.patch` — 5 tests |
 
 ---
 
